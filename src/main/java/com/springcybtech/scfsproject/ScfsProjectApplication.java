@@ -21,8 +21,8 @@ public class ScfsProjectApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Call the fetchAndSaveWeather method with a sample city
-        weatherService.fetchAndSaveWeather("Odense");
+        //weatherService.fetchAndSaveWeather("Odense");
         // Print a message to indicate the method has been called
-        System.out.println("Weather data fetched and saved for Odense.");
+        //System.out.println("Weather data fetched and saved for Odense.");
     }
 }
