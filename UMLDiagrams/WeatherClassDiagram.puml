@@ -1,0 +1,100 @@
+@startuml
+package com.springcybtech.scfsproject.config {
+    class WebSocketConfig {
+        +void configureMessageBroker(MessageBrokerRegistry config)
+        +void registerStompEndpoints(StompEndpointRegistry registry)
+    }
+}
+
+package com.springcybtech.scfsproject.controller {
+    class WeatherController {
+        -WeatherService weatherService
+        +WeatherController(WeatherService weatherService)
+        +List<WeatherDTO> getWeatherData(String city)
+        +String getWeatherPage(String city, Model model)
+    }
+}
+
+package com.springcybtech.scfsproject.dto {
+    class WeatherDTO {
+        +String city
+        +Long time
+        +Double temperature
+        +Integer humidity
+        +Double windSpeed
+        +Integer windDirection
+        +String location
+        +String icon
+    }
+}
+
+package com.springcybtech.scfsproject.models {
+    class WeatherModel {
+        +Long id
+        +String city
+        +Long time
+        +Double temperature
+        +Integer humidity
+        +Double windSpeed
+        +Integer windDirection
+        +String location
+        +String icon
+    }
+}
+
+package com.springcybtech.scfsproject.observer {
+    interface Observer {
+        +void update(WeatherDTO weatherData)
+    }
+
+    interface Subject {
+        +void notifyObservers(WeatherDTO weatherData)
+    }
+}
+
+package com.springcybtech.scfsproject.repository {
+    interface WeatherRepository {
+        +List<WeatherModel> findByCity(String city)
+        +Optional<WeatherModel> findByCityAndTime(String city, Long time)
+    }
+}
+
+package com.springcybtech.scfsproject.scheduling {
+    class WeatherScheduler {
+        -WeatherServiceImpl weatherService
+        -SimpMessagingTemplate template
+        +void fetchWeatherData()
+    }
+}
+
+package com.springcybtech.scfsproject.services.impl {
+    class WeatherServiceImpl {
+        -WeatherRepository weatherRepository
+        -AtomicReference<String> currentCity
+        -List<Observer> observers
+        +void fetchAndSaveWeather(String city)
+        +List<WeatherDTO> getWeather(String city)
+        +String getCurrentCity()
+        +void notifyObservers(WeatherDTO weatherData)
+    }
+}
+
+package com.springcybtech.scfsproject.services {
+    interface WeatherService {
+        +void fetchAndSaveWeather(String city)
+        +List<WeatherDTO> getWeather(String city)
+    }
+}
+
+WeatherController --> WeatherService
+WeatherServiceImpl --> WeatherService
+WeatherServiceImpl -|> Subject
+WeatherServiceImpl --> WeatherRepository
+WeatherServiceImpl ..> Observer : <<use>>
+WeatherScheduler --> WeatherServiceImpl
+WeatherRepository --> WeatherModel
+WeatherDTO --> WeatherModel
+WeatherController --> WeatherDTO
+WeatherServiceImpl --> WeatherDTO
+
+@enduml

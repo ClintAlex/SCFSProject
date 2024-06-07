@@ -6,15 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Entity
+@Data @NoArgsConstructor @AllArgsConstructor @Builder @Entity
 @Table(name = "weather", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"city", "time"})
 })
-public class Weather {
+public class WeatherModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,5 +21,5 @@ public class Weather {
     private Double windSpeed;
     private Integer windDirection;
     private String location;
-    private String icon; // Add this line
+    private String icon;
 }

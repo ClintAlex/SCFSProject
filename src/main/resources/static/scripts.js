@@ -1,5 +1,5 @@
 let stompClient = null;
-let city = 'Odense'; // Default city
+let city = 'Odense'; // The deafault city loaded when the page is opened
 
 document.addEventListener("DOMContentLoaded", function() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -125,6 +125,12 @@ function renderChart(data) {
     updateWeatherDetails(data);
 }
 
+function getWindDirection(degree) {
+    const directions = ['NORTH', 'NORTH-EAST', 'EAST', 'SOUTH-EAST', 'SOUTH', 'SOUTH-WEST', 'WEST', 'NORTH-WEST'];
+    const index = Math.round((degree % 360) / 45) % 8;
+    return directions[index];
+}
+
 function updateChart(data) {
     const times = data.map(d => new Date(d.time * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
     const temperatures = data.map(d => d.temperature);
@@ -144,10 +150,4 @@ function updateWeatherDetails(data) {
         document.getElementById('windDirection').textContent = getWindDirection(latestData.windDirection);
         document.getElementById('weatherIcon').src = `http://openweathermap.org/img/w/${latestData.icon}.png`;
     }
-}
-
-function getWindDirection(degree) {
-    const directions = ['NORTH', 'NORTH-EAST', 'EAST', 'SOUTH-EAST', 'SOUTH', 'SOUTH-WEST', 'WEST', 'NORTH-WEST'];
-    const index = Math.round((degree % 360) / 45) % 8;
-    return directions[index];
 }

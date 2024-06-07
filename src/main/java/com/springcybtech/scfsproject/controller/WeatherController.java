@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.List;
 
 @Controller
@@ -23,10 +22,7 @@ public class WeatherController {
     @GetMapping("/api/weather")
     @ResponseBody
     public List<WeatherDTO> getWeatherData(@RequestParam String city) {
-        // Fetch and save new data from the OpenWeatherMap API
         weatherService.fetchAndSaveWeather(city);
-
-        // Retrieve the latest data for the specified city
         return weatherService.getWeather(city);
     }
 

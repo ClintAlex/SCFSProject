@@ -1,0 +1,22 @@
+@startuml
+|WeatherServiceImpl|
+start
+:Fetch and process weather data;
+
+:Check if data is new;
+if (Data is new?) then (yes)
+    :Save weather data;
+    :Convert WeatherModel to WeatherDTO;
+    :Notify observers;
+    |Observer|
+    :Receive weather update;
+    :Update with new weather data;
+else (no)
+    :Log "Duplicate data, skipping save";
+endif
+
+|WeatherServiceImpl|
+:End point;
+
+stop
+@enduml

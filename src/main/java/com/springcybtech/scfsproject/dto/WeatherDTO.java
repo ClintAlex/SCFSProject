@@ -17,5 +17,5 @@ public class WeatherDTO {
     private Double windSpeed;
     private Integer windDirection;
     private String location;
-    private String icon; // Add this line
+    private String icon;
 }
